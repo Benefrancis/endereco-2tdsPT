@@ -1,22 +1,54 @@
 package br.com.fiap.domain.entity;
 
+import br.com.fiap.infra.security.entity.Pessoa;
+import jakarta.persistence.*;
+
+
+@Entity
+@Table(name = "TB_ENDERECO", uniqueConstraints = {
+        @UniqueConstraint( name = "UK_ENDERECO_PESSOA", columnNames = { "PESSOA", "CEP"})
+})
 public class Endereco {
+
+
+    @Id
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(
+            name = "PESSOA",
+            referencedColumnName = "ID_PESSOA",
+            foreignKey = @ForeignKey(name = "FK_TB_ENDERECO_PESSOA"),
+            nullable = false
+    )
+    private Pessoa pessoa;
+
+    @Id
+    @Column(name = "CEP", nullable = false)
     private String cep;
+
     private String logradouro;
+
     private String complemento;
+
     private String bairro;
+
     private String localidade;
+
     private String uf;
+
     private String ibge;
+
     private String gia;
+
     private String ddd;
+
     private String siafi;
 
 
     public Endereco() {
     }
 
-    public Endereco(String cep, String logradouro, String complemento, String bairro, String localidade, String uf, String ibge, String gia, String ddd, String siafi) {
+    public Endereco(Pessoa pessoa, String cep, String logradouro, String complemento, String bairro, String localidade, String uf, String ibge, String gia, String ddd, String siafi) {
+        this.pessoa = pessoa;
         this.cep = cep;
         this.logradouro = logradouro;
         this.complemento = complemento;
@@ -27,6 +59,16 @@ public class Endereco {
         this.gia = gia;
         this.ddd = ddd;
         this.siafi = siafi;
+    }
+
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public Endereco setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+        return this;
     }
 
     public String getCep() {
@@ -122,7 +164,8 @@ public class Endereco {
     @Override
     public String toString() {
         return "Endereco{" +
-                "cep='" + cep + '\'' +
+                "pessoa=" + pessoa +
+                ", cep='" + cep + '\'' +
                 ", logradouro='" + logradouro + '\'' +
                 ", complemento='" + complemento + '\'' +
                 ", bairro='" + bairro + '\'' +

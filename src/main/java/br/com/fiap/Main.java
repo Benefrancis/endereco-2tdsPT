@@ -21,7 +21,7 @@ public class Main {
 
     public static final String BASE_URI = "http://localhost/api/";
 
-    public static final String PERSISTENCE_UNIT = "oracle-fiap";
+    public static final String PERSISTENCE_UNIT = "oracle-home";
 
     @PersistenceContext
     static EntityManager manager;

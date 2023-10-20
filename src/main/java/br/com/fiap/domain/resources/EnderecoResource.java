@@ -13,7 +13,10 @@ import java.util.Objects;
 
 @Path("/endereco")
 public class EnderecoResource {
-    private EnderecoService service = new EnderecoService();
+
+    //Acionando o método construtor:
+    private EnderecoService service =   EnderecoService.build();
+
 
     @GET
     @Path("/{cep}")
